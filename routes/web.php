@@ -81,7 +81,18 @@ Route::post('/events/{event:slug}/register',
 */
 
 Route::middleware(['auth'])->group(function () {
-
+// Admin User Management Routes
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}/edit', [App\Http\Controllers\Admin\UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'update'])->name('users.update');
+    
+    // Quick actions
+    Route::post('/users/{user}/make-organizer', [App\Http\Controllers\Admin\UserController::class, 'makeOrganizer'])->name('users.make-organizer');
+    Route::post('/users/{user}/remove-organizer', [App\Http\Controllers\Admin\UserController::class, 'removeOrganizer'])->name('users.remove-organizer');
+    Route::post('/users/{user}/make-admin', [App\Http\Controllers\Admin\UserController::class, 'makeAdmin'])->name('users.make-admin');
+    Route::post('/users/{user}/remove-admin', [App\Http\Controllers\Admin\UserController::class, 'removeAdmin'])->name('users.remove-admin');
+});
     // Event CRUD
     Route::get('/events/create', 
         [EventController::class, 'create']

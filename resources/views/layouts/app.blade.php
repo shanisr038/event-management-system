@@ -111,6 +111,22 @@
             color: #fff;
         }
         
+        /* Admin badge */
+        .badge.bg-admin {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        
+        .badge.bg-organizer {
+            background-color: #ffc107;
+            color: #000;
+        }
+        
+        .badge.bg-attendee {
+            background-color: #17a2b8;
+            color: #fff;
+        }
+        
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .navbar-brand {
@@ -168,6 +184,16 @@
                                 <i class="bi bi-ticket-perforated me-1"></i> My Registrations
                             </a>
                         </li>
+                        
+                        {{-- Admin Users Management Link --}}
+                        @if(auth()->user()->hasRole('admin'))
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" 
+                                   href="{{ route('admin.users.index') }}">
+                                    <i class="bi bi-people-fill me-1"></i> Manage Users
+                                </a>
+                            </li>
+                        @endif
                     @endauth
                 </ul>
                 
@@ -227,6 +253,16 @@
                                         <i class="bi bi-ticket-perforated me-2"></i> My Registrations
                                     </a>
                                 </li>
+                                
+                                {{-- Admin dropdown link --}}
+                                @if(auth()->user()->hasRole('admin'))
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('admin.users.index') }}">
+                                            <i class="bi bi-people-fill me-2"></i> Manage Users
+                                        </a>
+                                    </li>
+                                @endif
+                                
                                 @can('create', App\Models\Event::class)
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
@@ -251,6 +287,8 @@
             </div>
         </div>
     </nav>
+
+    {{-- REMOVED: Duplicate navigation items that were incorrectly placed here --}}
 
     <main class="flex-grow-1 py-4">
         <div class="container">
@@ -311,6 +349,9 @@
                         @auth
                             <li><a href="{{ route('dashboard') }}" class="text-white-50 text-decoration-none">Dashboard</a></li>
                             <li><a href="{{ route('my-registrations') }}" class="text-white-50 text-decoration-none">My Registrations</a></li>
+                            @if(auth()->user()->hasRole('admin'))
+                                <li><a href="{{ route('admin.users.index') }}" class="text-white-50 text-decoration-none">Manage Users</a></li>
+                            @endif
                         @endauth
                     </ul>
                 </div>

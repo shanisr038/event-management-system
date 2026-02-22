@@ -204,36 +204,45 @@
                 </div>
             </div>
 
-            <!-- Admin Quick Links (visible only to admins) -->
-            @can('manage', App\Models\Event::class)
+            <!-- Admin Panel Section (Only for Admins) -->
+            @if(auth()->user()->hasRole('admin'))
                 <div class="mt-6 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <h3 class="text-lg font-semibold mb-4">Admin Quick Actions</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <h3 class="text-lg font-semibold mb-4">Admin Panel</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <a href="{{ route('admin.users.index') }}" 
+                               class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                                <i class="bi bi-people-fill text-3xl mb-2 d-block text-primary"></i>
+                                <span class="font-medium">Manage Users</span>
+                                <p class="text-xs text-gray-500 mt-1">Add/remove roles, manage permissions</p>
+                            </a>
+                            
                             <a href="{{ route('events.index') }}" 
-                               class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <i class="bi bi-calendar-check text-2xl mb-2 block"></i>
-                                <span class="text-sm">Manage Events</span>
+                               class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                                <i class="bi bi-calendar-check text-3xl mb-2 d-block text-success"></i>
+                                <span class="font-medium">All Events</span>
+                                <p class="text-xs text-gray-500 mt-1">View and manage all events</p>
                             </a>
+                            
                             <a href="#" 
-                               class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <i class="bi bi-people text-2xl mb-2 block"></i>
-                                <span class="text-sm">Manage Users</span>
-                            </a>
-                            <a href="#" 
-                               class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <i class="bi bi-pie-chart text-2xl mb-2 block"></i>
-                                <span class="text-sm">Reports</span>
-                            </a>
-                            <a href="#" 
-                               class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <i class="bi bi-gear text-2xl mb-2 block"></i>
-                                <span class="text-sm">Settings</span>
+                               class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                                <i class="bi bi-pie-chart text-3xl mb-2 d-block text-info"></i>
+                                <span class="font-medium">Reports</span>
+                                <p class="text-xs text-gray-500 mt-1">View system analytics</p>
                             </a>
                         </div>
                     </div>
                 </div>
+            @endif
+
+            <!-- Old Admin Quick Actions - Remove this section -->
+            {{-- 
+            @can('manage', App\Models\Event::class)
+                <div class="mt-6 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    ... old code ...
+                </div>
             @endcan
+            --}}
         </div>
     </div>
 </x-app-layout>
